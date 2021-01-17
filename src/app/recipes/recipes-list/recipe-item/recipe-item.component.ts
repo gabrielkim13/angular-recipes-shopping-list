@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
+import { Recipe } from '../../recipe.model';
 
 @Component({
   selector: 'app-recipe-item',
   templateUrl: './recipe-item.component.html',
-  styleUrls: ['./recipe-item.component.sass']
+  styleUrls: ['./recipe-item.component.sass'],
 })
-export class RecipeItemComponent implements OnInit {
+export class RecipeItemComponent {
+  @Input()
+  recipe: Recipe;
 
-  constructor() { }
+  @Output()
+  onClick = new EventEmitter<void>();
 
-  ngOnInit(): void {
+  onRecipeClick(): void {
+    this.onClick.emit();
   }
-
 }

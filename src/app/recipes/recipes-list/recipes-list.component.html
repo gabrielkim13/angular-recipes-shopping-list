@@ -8,15 +8,7 @@
 
 <div class="row d-flex">
   <div class="col-12 flex-grow-1">
-    <a *ngFor="let recipe of recipes" href="#" class="list-group-item list-group-item-action clearfix">
-      <div class="float-left">
-        <h4>{{ recipe.name }}</h4>
-        <p>{{ recipe.description }}</p>
-      </div>
-      <span class="float-right">
-        <img [src]="recipe.imagePath" alt="" class="img-responsive" style="max-height: 50px;" />
-      </span>
-    </a>
-    <app-recipe-item></app-recipe-item>
+    <app-recipe-item *ngFor="let recipe of recipes" [recipe]="recipe" (onClick)="onRecipeSelected(recipe)">
+    </app-recipe-item>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 import { Recipe } from '../recipe.model';
 
@@ -8,6 +8,9 @@ import { Recipe } from '../recipe.model';
   styleUrls: ['./recipes-list.component.sass'],
 })
 export class RecipesListComponent implements OnInit {
+  @Output()
+  onSelected = new EventEmitter<Recipe>();
+
   public recipes: Recipe[] = [
     new Recipe(
       'Recipe 1',
@@ -28,5 +31,9 @@ export class RecipesListComponent implements OnInit {
 
   ngOnInit(): void {
     throw new Error('Method not implemented.');
+  }
+
+  onRecipeSelected(recipe: Recipe): void {
+    this.onSelected.emit(recipe);
   }
 }

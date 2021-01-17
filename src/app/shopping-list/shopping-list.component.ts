@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { Ingredient } from '../shared/ingredient.model';
 
@@ -7,14 +7,14 @@ import { Ingredient } from '../shared/ingredient.model';
   templateUrl: './shopping-list.component.html',
   styleUrls: ['./shopping-list.component.sass'],
 })
-export class ShoppingListComponent implements OnInit {
+export class ShoppingListComponent {
   public ingredients: Ingredient[] = [
     new Ingredient('Ingredient 1', 1),
     new Ingredient('Ingredient 2', 2),
     new Ingredient('Ingredient 3', 3),
   ];
 
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
+  handleAddIngredient(ingredient: Ingredient): void {
+    this.ingredients.push(ingredient);
   }
 }
