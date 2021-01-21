@@ -20,8 +20,6 @@ export class DropdownDirective {
       'div.dropdown-menu',
     );
 
-    console.log(dropdownMenuElement);
-
     if (!this.isOpen) dropdownMenuElement.classList.add('show');
     else dropdownMenuElement.classList.remove('show');
 

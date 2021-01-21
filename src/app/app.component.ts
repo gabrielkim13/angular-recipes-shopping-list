@@ -5,12 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.sass'],
 })
-export class AppComponent {
-  title = 'recipes-shopping-list';
-
-  currentFeature = 'recipes';
-
-  onFeatureSelect(feature: string) {
-    this.currentFeature = feature;
-  }
-}
+export class AppComponent {}

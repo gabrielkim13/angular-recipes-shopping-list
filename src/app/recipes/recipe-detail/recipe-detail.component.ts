@@ -1,4 +1,7 @@
 import { Component, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { RecipesService } from 'src/app/recipes/recipes.service';
 import { ShoppingListService } from 'src/app/shopping-list/shopping-list.service';
 
 import { Recipe } from '../recipe.model';
@@ -9,12 +12,27 @@ import { Recipe } from '../recipe.model';
   styleUrls: ['./recipe-detail.component.sass'],
 })
 export class RecipeDetailComponent {
-  @Input()
+  id: number;
+
   recipe: Recipe;
 
-  constructor(private readonly shoppingListService: ShoppingListService) {}
+  constructor(
+    private readonly recipesService: RecipesService,
+    private readonly shoppingListService: ShoppingListService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+  ) {
+    this.route.params.subscribe(params => {
+      this.id = +params.id;
+      this.recipe = this.recipesService.getRecipe(this.id);
+    });
+  }
 
   onAddToShoppingListClick(): void {
     this.shoppingListService.addIngredients(this.recipe.ingredients);
+  }
+
+  onEditRecipeClick(): void {
+    this.router.navigate(['edit'], { relativeTo: this.route });
   }
 }

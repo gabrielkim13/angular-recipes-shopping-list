@@ -1,4 +1,5 @@
-<a href="#" class="list-group-item list-group-item-action clearfix" (click)="onRecipeClick()">
+<a class="list-group-item list-group-item-action clearfix" style="cursor: pointer;" [routerLink]="[index]"
+  routerLinkActive="active">
   <div class="float-left">
     <h4>{{ recipe.name }}</h4>
     <p>{{ recipe.description }}</p>
