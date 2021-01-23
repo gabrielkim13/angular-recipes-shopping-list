@@ -35,4 +35,9 @@ export class RecipeDetailComponent {
   onEditRecipeClick(): void {
     this.router.navigate(['edit'], { relativeTo: this.route });
   }
+
+  onDeleteRecipeClick(): void {
+    this.recipesService.deleteRecipe(this.id);
+    this.router.navigate(['/recipes'], { relativeTo: this.route });
+  }
 }

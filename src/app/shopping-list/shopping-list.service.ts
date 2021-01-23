@@ -9,15 +9,31 @@ export class ShoppingListService {
     new Ingredient('Ingredient 3', 3),
   ];
 
-  onAddIngredient = new Subject<void>();
+  onIngredientsChanged = new Subject<void>();
+
+  startedEditing = new Subject<number>();
 
   get getIngredients(): Ingredient[] {
     return this.ingredients.slice();
   }
 
+  getIngredient(index: number): Ingredient {
+    return this.ingredients[index];
+  }
+
   addIngredients(ingredients: Ingredient[]): void {
     ingredients.forEach(ingredient => this.addIngredient(ingredient));
-    this.onAddIngredient.next();
+    this.onIngredientsChanged.next();
+  }
+
+  updateIngredient(index: number, ingredient: Ingredient): void {
+    this.ingredients[index] = ingredient;
+    this.onIngredientsChanged.next();
+  }
+
+  deleteIngredient(index: number): void {
+    this.ingredients.splice(index, 1);
+    this.onIngredientsChanged.next();
   }
 
   private addIngredient(ingredient: Ingredient): void {
