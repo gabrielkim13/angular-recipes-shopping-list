@@ -21,6 +21,7 @@
   "rules": {
     "class-methods-use-this": "off",
     "no-useless-constructor": "off",
+    "no-underscore-dangle": "off",
     "prettier/prettier": "error",
     "import/extensions": [
       "error",
