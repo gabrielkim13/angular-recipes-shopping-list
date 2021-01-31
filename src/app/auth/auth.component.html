@@ -21,8 +21,12 @@
         'Login'}}</button>
     </form>
 
-    <div *ngIf="error" class="alert alert-danger mt-3">
+    <!-- <div *ngIf="error" class="alert alert-danger mt-3">
       <p>{{error}}</p>
-    </div>
+    </div> -->
+
+    <!-- <app-alert *ngIf="error" [message]="error" (close)="onHandleError()"></app-alert> -->
+
+    <ng-template appPlaceholder></ng-template>
   </div>
 </div>

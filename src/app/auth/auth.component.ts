@@ -1,7 +1,15 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  ComponentFactoryResolver,
+  ElementRef,
+  OnDestroy,
+  ViewChild,
+} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { AlertComponent } from '../shared/alert/alert.component';
+import { PlaceholderDirective } from '../shared/placeholder.directive';
 import { AuthResponse, AuthService } from './auth.service';
 
 @Component({
@@ -9,7 +17,12 @@ import { AuthResponse, AuthService } from './auth.service';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.sass'],
 })
-export class AuthComponent {
+export class AuthComponent implements OnDestroy {
+  @ViewChild(PlaceholderDirective)
+  private alertHost: PlaceholderDirective;
+
+  private alertCloseSubscription: Subscription;
+
   isLoginMode = true;
 
   isLoading = false;
@@ -19,7 +32,12 @@ export class AuthComponent {
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router,
+    private readonly componentFactoryResolver: ComponentFactoryResolver,
   ) {}
+
+  ngOnDestroy(): void {
+    this.alertCloseSubscription?.unsubscribe();
+  }
 
   onSwitchMode(): void {
     this.isLoginMode = !this.isLoginMode;
@@ -49,9 +67,35 @@ export class AuthComponent {
       errorMessage => {
         this.error = errorMessage;
         this.isLoading = false;
+
+        this.showErrorAlert();
       },
     );
 
     form.reset();
+  }
+
+  onHandleError(): void {
+    this.error = null;
+  }
+
+  private showErrorAlert(): void {
+    const alertComponentFactory = this.componentFactoryResolver.resolveComponentFactory(
+      AlertComponent,
+    );
+
+    const hostViewContainerRef = this.alertHost.viewContainerRef;
+    hostViewContainerRef.clear();
+
+    const componentRef = hostViewContainerRef.createComponent(
+      alertComponentFactory,
+    );
+
+    componentRef.instance.message = this.error;
+    this.alertCloseSubscription = componentRef.instance.close.subscribe(() => {
+      hostViewContainerRef.clear();
+
+      this.alertCloseSubscription.unsubscribe();
+    });
   }
 }
