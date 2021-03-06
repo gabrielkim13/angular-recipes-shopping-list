@@ -1,10 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 
-import { RecipesService } from 'src/app/recipes/recipes.service';
-import { ShoppingListService } from 'src/app/shopping-list/shopping-list.service';
-
+import { RecipesService } from '../recipes.service';
 import { Recipe } from '../recipe.model';
+
+import * as ShoppingListActions from '../../shopping-list/store/shopping-list.actions';
+import * as fromShoppingList from '../../shopping-list/store/shopping-list.reducer';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -18,9 +20,9 @@ export class RecipeDetailComponent {
 
   constructor(
     private readonly recipesService: RecipesService,
-    private readonly shoppingListService: ShoppingListService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
+    private readonly store: Store<fromShoppingList.AppState>,
   ) {
     this.route.params.subscribe(params => {
       this.id = +params.id;
@@ -29,7 +31,9 @@ export class RecipeDetailComponent {
   }
 
   onAddToShoppingListClick(): void {
-    this.shoppingListService.addIngredients(this.recipe.ingredients);
+    this.store.dispatch(
+      new ShoppingListActions.AddIngredients(this.recipe.ingredients),
+    );
   }
 
   onEditRecipeClick(): void {
