@@ -6,7 +6,7 @@ import { RecipesService } from '../recipes.service';
 import { Recipe } from '../recipe.model';
 
 import * as ShoppingListActions from '../../shopping-list/store/shopping-list.actions';
-import * as fromShoppingList from '../../shopping-list/store/shopping-list.reducer';
+import * as fromApp from '../../store/app.reducer';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -22,7 +22,7 @@ export class RecipeDetailComponent {
     private readonly recipesService: RecipesService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly store: Store<fromShoppingList.AppState>,
+    private readonly store: Store<fromApp.AppState>,
   ) {
     this.route.params.subscribe(params => {
       this.id = +params.id;

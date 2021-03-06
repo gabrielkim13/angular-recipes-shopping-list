@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { LoggingService } from '../logging.service';
 import * as ShoppingListActions from './store/shopping-list.actions';
-import * as fromShoppingList from './store/shopping-list.reducer';
+import * as fromApp from '../store/app.reducer';
 
 @Component({
   selector: 'app-shopping-list',
@@ -13,11 +13,11 @@ import * as fromShoppingList from './store/shopping-list.reducer';
   styleUrls: ['./shopping-list.component.sass'],
 })
 export class ShoppingListComponent implements OnInit {
-  public shoppingList: Observable<fromShoppingList.State>;
+  public shoppingList: Observable<fromApp.AppState['shoppingList']>;
 
   constructor(
     private readonly loggingService: LoggingService,
-    private readonly store: Store<fromShoppingList.AppState>,
+    private readonly store: Store<fromApp.AppState>,
   ) {}
 
   ngOnInit(): void {
