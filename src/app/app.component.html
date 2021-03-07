@@ -1,8 +1,8 @@
 <app-header></app-header>
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
-      <router-outlet></router-outlet>
+    <div class="col-md-12 py-3" [@containerState]="state">
+      <router-outlet (activate)="onRouteActivation()" (deactivate)="onRouteDeactivation()"></router-outlet>
     </div>
   </div>
 </div>
