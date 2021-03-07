@@ -39,6 +39,7 @@ export class Success implements Action {
       localId: string;
       idToken: string;
       expiresIn: number;
+      redirect: boolean;
     },
   ) {}
 }

@@ -34,9 +34,9 @@ export class AuthEffect {
   ) {}
 
   private handleSuccess({ email, localId, idToken, expiresIn }: AuthResponse) {
-    const expiresInMs = 1000 + +expiresIn;
-
+    const expiresInMs = 1000 * +expiresIn;
     const expirationDate = new Date().getTime() + expiresInMs;
+
     const user = new User(email, localId, idToken, new Date(expirationDate));
 
     localStorage.setItem('RecipesShoppingList@user', JSON.stringify(user));
@@ -47,6 +47,7 @@ export class AuthEffect {
       localId,
       idToken,
       expiresIn: expirationDate,
+      redirect: true,
     });
   }
 
@@ -83,7 +84,10 @@ export class AuthEffect {
             `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.firebaseApiKey}`,
             { email, password, returnSecureToken: true },
           )
-          .pipe(map(this.handleSuccess), catchError(this.handleFailure)),
+          .pipe(
+            map(this.handleSuccess.bind(this) as AuthEffect['handleSuccess']),
+            catchError(this.handleFailure),
+          ),
       ),
     ),
   );
@@ -115,6 +119,7 @@ export class AuthEffect {
           localId: id,
           idToken: _token,
           expiresIn: _tokenExpiration,
+          redirect: false,
         });
       }),
     ),
@@ -130,7 +135,10 @@ export class AuthEffect {
               `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebaseApiKey}`,
               { email, password, returnSecureToken: true },
             )
-            .pipe(map(this.handleSuccess), catchError(this.handleFailure)),
+            .pipe(
+              map(this.handleSuccess.bind(this) as AuthEffect['handleSuccess']),
+              catchError(this.handleFailure),
+            ),
         ),
       ),
     { dispatch: false },
@@ -154,8 +162,8 @@ export class AuthEffect {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.SUCCESS),
-        tap(() => {
-          this.router.navigate(['/']);
+        tap<AuthActions.Success>(({ payload: { redirect } }) => {
+          if (redirect) this.router.navigate(['/']);
         }),
       ),
     { dispatch: false },
