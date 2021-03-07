@@ -26,7 +26,7 @@ import { environment } from '../environments/environment';
   declarations: [AppComponent, HeaderComponent],
   imports: [
     AppRoutingModule,
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     FormsModule,
     StoreModule.forRoot(fromApp.appReducer),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
